@@ -69,7 +69,11 @@ Window {
                     id: mouseArea
                     anchors.fill: parent
                     hoverEnabled: true
-                    onEntered: toolTip.visible = true
+                    onEntered: {
+                        if (0 != fileNameLabel.text.length) {
+                            toolTip.visible = true
+                        }
+                    }
                     onExited: toolTip.visible = false
                 }
             }
