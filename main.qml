@@ -32,6 +32,19 @@ Window {
                 text: "SHA256"
                 checked: true
             }
+            Item {
+                Layout.fillWidth: true
+            }
+
+            Button {
+                id: compareButton
+                text: "比较"
+                Layout.preferredWidth: 80
+                onClicked: {
+                    textFiled.clear()
+                    inputDialog.open()
+                }
+            }
         }
         RowLayout {
             Layout.fillWidth: true
@@ -84,6 +97,8 @@ Window {
             TextArea {
                 id: logTextArea
                 wrapMode: TextEdit.WrapAnywhere
+                selectByKeyboard: true
+                selectByMouse: true
                 background: Rectangle {
                     border { color: "gray"; width: 1 }
                 }
@@ -101,6 +116,38 @@ Window {
         onAccepted: {
             fileNameLabel.text = fileUrl.toString().substring(8)
             appendMsg("选择文件：" + fileNameLabel.text)
+        }
+    }
+
+    Popup {
+        id: inputDialog
+        anchors.centerIn: parent
+        focus: true
+        RowLayout {
+            anchors.fill: parent
+            anchors.leftMargin: 5
+            anchors.rightMargin: 5
+            TextField {
+                id: textFiled
+                focus: true
+                Layout.fillWidth: true
+                selectByMouse: true
+                placeholderText: "请输入MD5或SHA256值"
+                Keys.onReturnPressed: okButton.clicked()
+            }
+            Button {
+                id: okButton
+                text: "确定"
+                onClicked: {
+                    inputDialog.close()
+                    hashTool.compare(textFiled.text)
+                }
+            }
+            Button {
+                id: cancelButton
+                text: "取消"
+                onClicked: inputDialog.close()
+            }
         }
     }
 
